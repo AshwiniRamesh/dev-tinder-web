@@ -9,9 +9,9 @@ export default function profile() {
   )
 }
 
-{
-  "email": "ashwini.a.h.r@accenture.com",
-  "password": "Ashwini@123",
-  "phone": "400123456",
-  "name": "Ashwini H R"
-}
+// {
+//   "email": "ashwini.a.h.r@accenture.com",
+//   "password": "Ashwini@123",
+//   "phone": "400123456",
+//   "name": "Ashwini H R"
+// }
