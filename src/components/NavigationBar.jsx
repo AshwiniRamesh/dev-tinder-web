@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-export default function NavigationBar() {
+export function NavigationBar() {
   const [theme, setTheme] = useState("light");
 
   const toggleTheme = () => {
