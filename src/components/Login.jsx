@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { validateInputFields } from "../utils/validate";
 import { addUser } from "../utils/userSlice";
 import { useDispatch } from "react-redux";
-import { login } from "../utils/login";
+import { login, signup } from "../utils/login";
 import { useNavigate } from "react-router-dom";
 
 export function Login() {
@@ -21,12 +21,6 @@ export function Login() {
     setIsSignIn((prev) => !prev);
     setErrorMessage(null);
   }, [isSignIn]);
-
-  // Log state change (optional)
-  useEffect(() => {
-    // console.log(isSignIn ? "Sign In Mode" : "Sign Up Mode");
-  }, [isSignIn]);
-
   // Reset the form fields
   const resetForm = () => {
     [email, password, name, phone].forEach((ref) => {
@@ -38,7 +32,6 @@ export function Login() {
       dispatch(addUser(user));
       navigate("/profile");
     } catch (error) {
-      // console.error("Error updating profile:", error.message);
       setErrorMessage("Failed to update profile. Please try again.");
     }
   };
@@ -56,12 +49,12 @@ export function Login() {
       let user;
       if (isSignIn) {
         // Sign in
-        user = login(email.current.value, password.current.value);
+        user = login({email:email.current.value, password:password.current.value});
       } else {
         // Sign up
-        user = login(email.current.value, password.current.value);
+        user = signup({email:email.current.value, password:password.current.value,
+          phone:phone.current.value, name:name.current.value});
       }
-      console.log({ user });
       await updateUser(user);
       resetForm();
     } catch (err) {
