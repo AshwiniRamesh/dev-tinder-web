@@ -11,7 +11,7 @@ export function Login() {
   const [isSignIn, setIsSignIn] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const email = useRef(null);
+  const emailId = useRef(null);
   const password = useRef(null);
   const name = useRef(null);
   const phone = useRef(null);
@@ -23,7 +23,7 @@ export function Login() {
   }, [isSignIn]);
   // Reset the form fields
   const resetForm = () => {
-    [email, password, name, phone].forEach((ref) => {
+    [emailId, password, name, phone].forEach((ref) => {
       if (ref.current) ref.current.value = "";
     });
   };
@@ -40,7 +40,7 @@ export function Login() {
   const handleButtonClick = async () => {
     setErrorMessage(null);
     const error = validateInputFields(
-      email.current.value,
+      emailId.current.value,
       password.current.value
     );
     if (error) return setErrorMessage(error);
@@ -49,10 +49,10 @@ export function Login() {
       let user;
       if (isSignIn) {
         // Sign in
-        user = login({email:email.current.value, password:password.current.value});
+        user = login({emailId:emailId.current.value, password:password.current.value});
       } else {
         // Sign up
-        user = signup({email:email.current.value, password:password.current.value,
+        user = signup({emailId:emailId.current.value, password:password.current.value,
           phone:phone.current.value, name:name.current.value});
       }
       await updateUser(user);
@@ -92,7 +92,7 @@ export function Login() {
           )}
 
           <input
-            ref={email}
+            ref={emailId}
             type="text"
             placeholder="Email Address"
             className="w-full p-3 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-red-500"

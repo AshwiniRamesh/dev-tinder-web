@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {EditProfile} from './EditProfile';
 
 export default function profile() {
   const isLoggedInUser = useSelector((store) => store.user);
@@ -11,13 +12,9 @@ export default function profile() {
   }, [isLoggedInUser, navigate]);
 
   return (
-    <div>profile</div>
+    <div>
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-4"> Edit Profile Deatils </h1>
+      <EditProfile />
+    </div>
   )
 }
-
-// {
-//   "email": "ashwini.a.h.r@accenture.com",
-//   "password": "Ashwini@123",
-//   "phone": "400123456",
-//   "name": "Ashwini H R"
-// }

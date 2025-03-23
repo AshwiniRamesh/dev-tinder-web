@@ -1,4 +1,3 @@
-// login.js
 
 // Helper function to set cookies
 const setCookie = (name, value, days) => {
@@ -9,7 +8,7 @@ const setCookie = (name, value, days) => {
 export const login = (user) => {
   try {
     const users = JSON.parse(localStorage.getItem("usercredentials")) || [];
-    const foundUser = users.find((u) => u.email === user.email);
+    const foundUser = users.find((u) => u.emailId === user.emailId);
 
     if (!foundUser) {
       throw new Error("User not found");
@@ -32,7 +31,7 @@ export const login = (user) => {
 export const signup = (user) => {
   try {
     const users = JSON.parse(localStorage.getItem("usercredentials")) || [];
-    const existingUser = users.find((u) => u.email === user.email);
+    const existingUser = users.find((u) => u.emailId === user.emailId);
 
     if (existingUser) {
       throw new Error("User already exists");
