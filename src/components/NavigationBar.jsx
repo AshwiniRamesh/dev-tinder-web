@@ -9,15 +9,21 @@ export function NavigationBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [theme, setTheme] = useState("light");
+  const userName = isLoggedInUser && isLoggedInUser.name;
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
   };
+  const removeCookie = (name) => {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  };
+
   const handleSignOut = async () => {
     try {
       dispatch(removeUser());
+      removeCookie("user");
       navigate("/login");
     } catch (error) {
       console.error("Error signing out:", error.message);
@@ -37,11 +43,14 @@ export function NavigationBar() {
         <button className="btn btn-primary" onClick={toggleTheme}>
           Toggle Theme
         </button>
-        <input
-          type="text"
-          placeholder="Search"
-          className="input input-bordered w-24 md:w-auto"
-        />
+        {isLoggedInUser && userName ? (
+          <p className="text-gray-700 font-semibold px-2 italic mt-2">Welcome {userName}</p>
+        ) : (
+          <p className="text-gray-500 font-semibold px-2 italic mt-2">
+            Login to explore
+          </p>
+        )}
+
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -57,22 +66,21 @@ export function NavigationBar() {
               </div>
             ) : (
               <div className="w-10 rounded-full bg-gray-300 flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-8 h-8 text-gray-600"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 11.25c1.794 0 3.25-1.456 3.25-3.25S13.794 4.75 12 4.75 8.75 6.206 8.75 8s1.456 3.25 3.25 3.25zm0 1.5c-2.828 0-8.25 1.416-8.25 4.25v1.25a.75.75 0 00.75.75h15a.75.75 0 00.75-.75V17c0-2.834-5.422-4.25-8.25-4.25z"
-                />
-              </svg>
-            </div>
-          
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-8 h-8 text-gray-600"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 11.25c1.794 0 3.25-1.456 3.25-3.25S13.794 4.75 12 4.75 8.75 6.206 8.75 8s1.456 3.25 3.25 3.25zm0 1.5c-2.828 0-8.25 1.416-8.25 4.25v1.25a.75.75 0 00.75.75h15a.75.75 0 00.75-.75V17c0-2.834-5.422-4.25-8.25-4.25z"
+                  />
+                </svg>
+              </div>
             )}
           </div>
           <ul
