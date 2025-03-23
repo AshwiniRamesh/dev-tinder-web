@@ -28,7 +28,7 @@ export function Body() {
   useEffect(() => {
     const user = getCookie("user");
     if (user && !isLoggedInUser) {
-      console.log("User found in cookie:", user);
+      // console.log("User found in cookie:", user);
       dispatch(addUser(user));
       navigate("/profile");
     } else if (!user && !isLoggedInUser) {

@@ -4,7 +4,8 @@
 - Configure tailwind
 - Configure DaisyUI
 - Install react-router-dom and configured routes
-- Login component
+- Login component, logout, add data to the cookie and store
+- Build feed component
 
 
 - Body

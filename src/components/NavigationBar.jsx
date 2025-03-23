@@ -100,6 +100,9 @@ export function NavigationBar() {
               <a onClick={() => navigate("/connections")}>Connections</a>
             </li>
             <li>
+              <a onClick={() => navigate("/feed")}>Feed</a>
+            </li>
+            <li>
               <button
                 onClick={isLoggedInUser ? handleSignOut : handleSignIn}
                 className="btn btn-primary text-white font-semibold hover:underline flex items-center space-x-1"
