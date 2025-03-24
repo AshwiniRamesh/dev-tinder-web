@@ -30,7 +30,6 @@ export function EditProfile() {
         const email = parsedUser.emailId;
 
         const userData = userFeed.find((item) => item.emailId === email);
-        console.log("User data from feed:", userData);
 
         if (userData) {
           setFormData({ ...formData, ...userData });

@@ -6,7 +6,9 @@
 - Install react-router-dom and configured routes
 - Login component, logout, add data to the cookie and store
 - Build feed component
-- Build edit profile component
+- Build edit profile
+- SHow toast message for error and success messages
+- Build connections components
 
 
 - Body

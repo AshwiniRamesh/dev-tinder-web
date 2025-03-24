@@ -9,7 +9,7 @@ export function NavigationBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [theme, setTheme] = useState("light");
-  const userName = isLoggedInUser && isLoggedInUser.name;
+  const userName = isLoggedInUser && isLoggedInUser.firstName;
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
@@ -98,6 +98,9 @@ export function NavigationBar() {
             </li>
             <li>
               <a onClick={() => navigate("/connections")}>Connections</a>
+            </li>
+            <li>
+              <a onClick={() => navigate("/requests")}>Requests</a>
             </li>
             <li>
               <a onClick={() => navigate("/feed")}>Feed</a>

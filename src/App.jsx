@@ -3,6 +3,7 @@ import { Body } from "./components/Body";
 import { Login } from "./components/Login";
 import { Connections } from "./components/Connections";
 import { Feed } from "./components/Feed";
+import { Request } from "./components/Request";
 import Profile from "./components/Profile";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
@@ -18,6 +19,7 @@ export default function App() {
               <Route path="/connections" element={<Connections />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/feed" element={<Feed />} />
+              <Route path="/requests" element={<Request />} />
             </Route>
           </Routes>
         </BrowserRouter>
