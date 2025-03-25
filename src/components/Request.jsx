@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { connectRequests } from "../data/request";
@@ -10,85 +10,76 @@ export function Request() {
   const requestsFromStore = useSelector((store) => store.requests);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [toastMessage, setToastMessage] = useState("");
-  const [toastType, setToastType] = useState("");
+  const [toast, setToast] = useState({ message: "", type: "" });
+
+  // Find current user's requests efficiently using useMemo
+  const currentUserRequests = useMemo(() => {
+    return connectRequests.find((item) => item.email === isLoggedInUser?.emailId)?.requests || [];
+  }, [isLoggedInUser]);
 
   useEffect(() => {
     if (!isLoggedInUser) {
       navigate("/login");
     } else {
-      const currentUser = connectRequests.find(
-        (item) => item.email === isLoggedInUser.emailId
-      );
-      if (currentUser) {
-        dispatch(addRequest(currentUser.requests));
-      }
+      dispatch(addRequest(currentUserRequests));
     }
-  }, [isLoggedInUser, dispatch, navigate]);
+  }, [isLoggedInUser, dispatch, navigate, currentUserRequests]);
 
   // Show Toast Notification
-  const showToast = (message, type) => {
-    setToastMessage(message);
-    setToastType(type);
-    setTimeout(() => {
-      setToastMessage("");
-      setToastType("");
-    }, 2000); // Auto-dismiss after 3 seconds
-  };
+  const showToast = useCallback((message, type) => {
+    setToast({ message, type });
+    setTimeout(() => setToast({ message: "", type: "" }), 2000);
+  }, []);
 
   // Accept Request
-  const handleAccept = (emailId) => {
-    const newConnection = requestsFromStore.find(user => user.emailId === emailId);
-    dispatch(updateConnection(newConnection));
-    dispatch(removeRequest(emailId));
-    showToast("Connection Accepted!", "success");
-  };
+  const handleAccept = useCallback(
+    (emailId) => {
+      const newConnection = requestsFromStore.find((user) => user.emailId === emailId);
+      if (newConnection) {
+        dispatch(updateConnection(newConnection));
+        dispatch(removeRequest(emailId));
+        showToast("Connection Accepted!", "success");
+      }
+    },
+    [dispatch, requestsFromStore, showToast]
+  );
 
   // Ignore Request
-  const handleDelete = (emailId) => {
-    dispatch(removeRequest(emailId));
-    showToast("Request Ignored", "error");
-  };
+  const handleDelete = useCallback(
+    (emailId) => {
+      dispatch(removeRequest(emailId));
+      showToast("Request Ignored", "error");
+    },
+    [dispatch, showToast]
+  );
 
   return (
     <div className="p-4 relative">
       <h1 className="text-2xl font-bold mb-4">Friend Requests</h1>
 
       {/* Toast Notification */}
-      {toastMessage && (
-        <div className={`toast fixed top-4 right-4`}>
-          <div className={`alert ${toastType === "success" ? "alert-success" : "alert-error"} shadow-lg`}>
-            <div>
-              {toastType === "success" ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="stroke-current flex-shrink-0 h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="stroke-current flex-shrink-0 h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              )}
-              <span>{toastMessage}</span>
+      {toast.message && (
+        <div className="toast fixed top-4 right-4 z-50 transition-opacity duration-500">
+          <div className={`alert ${toast.type === "success" ? "alert-success" : "alert-error"} shadow-lg`}>
+            <div className="flex items-center space-x-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="stroke-current flex-shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d={
+                    toast.type === "success"
+                      ? "M5 13l4 4L19 7"
+                      : "M6 18L18 6M6 6l12 12"
+                  }
+                />
+              </svg>
+              <span>{toast.message}</span>
             </div>
           </div>
         </div>
@@ -98,16 +89,16 @@ export function Request() {
         <p className="text-gray-600">No friend requests at the moment.</p>
       ) : (
         <ul className="space-y-4">
-          {requestsFromStore.map((request, index) => (
+          {requestsFromStore.map((request) => (
             <li
-              key={index}
+              key={request.emailId}
               className="p-4 bg-white rounded-lg shadow-md flex items-center justify-between"
             >
               <div className="flex items-center space-x-4">
                 <img
                   src={request.photoUrl}
                   alt={`${request.firstName} ${request.lastName}`}
-                  className="w-16 h-16 rounded-full"
+                  className="w-16 h-16 rounded-full border border-gray-300"
                 />
                 <div>
                   <h2 className="text-lg font-semibold">

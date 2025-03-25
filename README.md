@@ -10,6 +10,7 @@
 - SHow toast message for error and success messages
 - Build connections components
 - Build requests components
+- Optimise code using callback and memo. Add necessery dependencies for useEffevt hook
 
 
 - Body
