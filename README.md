@@ -9,6 +9,7 @@
 - Build edit profile
 - SHow toast message for error and success messages
 - Build connections components
+- Build requests components
 
 
 - Body

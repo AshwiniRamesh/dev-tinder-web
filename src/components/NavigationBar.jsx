@@ -9,7 +9,10 @@ export function NavigationBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [theme, setTheme] = useState("light");
-  const userName = isLoggedInUser && isLoggedInUser.firstName;
+  const userName = isLoggedInUser && isLoggedInUser.name;
+
+  console.log({userName});
+  console.log({isLoggedInUser})
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";

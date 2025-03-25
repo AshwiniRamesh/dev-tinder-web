@@ -38,14 +38,14 @@ export const connectRequests = [
     email: "john.doe@example.com",
     requests: [
       {
-        firstName: "Sophia",
+        firstName: "Linda",
         lastName: "Taylor",
-        emailId: "sophia.taylor@example.com",
+        emailId: "linda.taylor@example.com",
         age: 29,
         gender: "female",
         isPremium: false,
         membershipType: "Basic",
-        photoUrl: "https://randomuser.me/api/portraits/women/7.jpg",
+        photoUrl: "https://randomuser.me/api/portraits/women/9.jpg",
         about: "UI/UX designer with a flair for creativity.",
         skills: ["Sketch", "Figma", "Adobe XD"],
         mutualConnections: 4,

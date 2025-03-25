@@ -20,6 +20,7 @@ export const userFeed = [
     lastName: "Doe",
     emailId: "john.doe@example.com",
     password: "StrongPassword123!",
+    phone: 7892094643,
     age: 25,
     gender: "male",
     isPremium: false,

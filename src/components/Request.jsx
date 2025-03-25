@@ -33,7 +33,7 @@ export function Request() {
     setTimeout(() => {
       setToastMessage("");
       setToastType("");
-    }, 3000); // Auto-dismiss after 3 seconds
+    }, 2000); // Auto-dismiss after 3 seconds
   };
 
   // Accept Request
